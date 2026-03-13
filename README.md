@@ -20,6 +20,20 @@ I designed and implemented automated infrastructure templates using Terraform to
 
 ## Architecture Overview
 
+### Visual Architecture Diagrams
+
+**Development VPC**
+
+![Development VPC Architecture](docs/architecture/dev-vpc-architecture.png)
+
+**Staging VPC**
+
+![Staging VPC Architecture](docs/architecture/staging-vpc-architecture.draw.png)
+
+**Production VPC**
+
+![Production VPC Architecture](docs/architecture/prod-vpc-architecture.draw.png)
+
 ### Three-Tier Network Design
 
 Each environment follows a standardized three-tier architecture:

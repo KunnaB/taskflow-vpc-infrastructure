@@ -4,11 +4,13 @@
 
 ## Problem Statement
 
-*"We're a growing tech company with 15 development teams. Each team needs their own AWS environment (dev/staging/prod). Currently, our platform team spends 8 hours per week manually setting up environments - creating VPCs, launching EC2 instances, configuring databases, setting up monitoring.*
+*"We're a growing startup that recently scaled from 2 to 5 developers. After implementing our TaskFlow serverless API with automated CI/CD, we're now facing new challenges as we continue to grow.*
 
-*Teams complain it takes 2-3 days to get an environment. We're also seeing AWS bills climb because teams forget to shut down dev resources. Security is concerned because configurations are inconsistent.*
+*Our platform team is now supporting 15 developers across multiple product teams. Each team needs isolated dev/staging/prod environments for their work. Currently, our platform team spends 8 hours per week manually creating VPCs, configuring subnets, and setting up NAT gateways.*
 
-*We need a self-service platform where teams can request environments and get them provisioned automatically with proper security, monitoring, and cost controls."*
+*Teams complain it takes 2-3 days to get a new environment. We're seeing AWS bills climb because teams forget to shut down dev resources. Security is concerned because manual configurations are inconsistent across environments.*
+
+*We need infrastructure-as-code to provision standardized, secure environments on-demand."*
 
 ## Solution
 

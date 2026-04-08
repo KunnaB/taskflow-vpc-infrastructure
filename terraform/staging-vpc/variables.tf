@@ -7,13 +7,13 @@ variable "aws_region" {
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "10.1.0.0/16"
 }
 
 variable "environment" {
   description = "Environment name"
   type        = string
-  default     = "dev"
+  default     = "staging"
 }
 
 variable "availability_zones" {
@@ -25,17 +25,17 @@ variable "availability_zones" {
 variable "public_subnet_cidrs" {
   description = "CIDR blocks for public subnets"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = ["10.1.1.0/24", "10.1.2.0/24"]
 }
 
 variable "private_app_subnet_cidrs" {
   description = "CIDR blocks for private app subnets"
   type        = list(string)
-  default     = ["10.0.11.0/24", "10.0.12.0/24"]
+  default     = ["10.1.11.0/24", "10.1.12.0/24"]
 }
 
 variable "private_db_subnet_cidrs" {
   description = "CIDR blocks for private DB subnets"
   type        = list(string)
-  default     = ["10.0.21.0/24", "10.0.22.0/24"]
+  default     = ["10.1.21.0/24", "10.1.22.0/24"]
 }

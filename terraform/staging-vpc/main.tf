@@ -69,23 +69,25 @@ resource "aws_subnet" "private_db" {
   }
 }
 
-# Create Elastic IP for NAT Gateway
+# Create Elastic IPs for NAT Gateways (one per AZ)
 resource "aws_eip" "nat" {
+  count  = length(var.availability_zones)
   domain = "vpc"
 
   tags = {
-    Name        = "${var.environment}-nat-eip"
+    Name        = "${var.environment}-nat-eip-${var.availability_zones[count.index]}"
     Environment = var.environment
   }
 }
 
-# Create NAT Gateway (in first public subnet, us-east-1a)
+# Create NAT Gateways (one per AZ for high availability)
 resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public[0].id
+  count         = length(var.availability_zones)
+  allocation_id = aws_eip.nat[count.index].id
+  subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
-    Name        = "${var.environment}-nat-gateway"
+    Name        = "${var.environment}-nat-gateway-${var.availability_zones[count.index]}"
     Environment = var.environment
   }
 
@@ -114,26 +116,27 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# Create Private App Route Table
+# Create Private App Route Tables (one per AZ, each pointing to its own NAT GW)
 resource "aws_route_table" "private_app" {
+  count  = length(var.availability_zones)
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.id
+    nat_gateway_id = aws_nat_gateway.main[count.index].id
   }
 
   tags = {
-    Name        = "${var.environment}-private-app-rt"
+    Name        = "${var.environment}-private-app-rt-${var.availability_zones[count.index]}"
     Environment = var.environment
   }
 }
 
-# Associate Private App Subnets with Private App Route Table
+# Associate Private App Subnets with their AZ-specific Route Table
 resource "aws_route_table_association" "private_app" {
   count          = length(var.availability_zones)
   subnet_id      = aws_subnet.private_app[count.index].id
-  route_table_id = aws_route_table.private_app.id
+  route_table_id = aws_route_table.private_app[count.index].id
 }
 
 # Create Private DB Route Table (no internet route)
@@ -158,10 +161,10 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_id       = aws_vpc.main.id
   service_name = "com.amazonaws.${var.aws_region}.s3"
 
-  route_table_ids = [
-    aws_route_table.private_app.id,
-    aws_route_table.private_db.id
-  ]
+  route_table_ids = concat(
+    aws_route_table.private_app[*].id,
+    [aws_route_table.private_db.id]
+  )
 
   tags = {
     Name        = "${var.environment}-s3-endpoint"

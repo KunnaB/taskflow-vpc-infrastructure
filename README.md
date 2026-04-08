@@ -21,6 +21,26 @@ I designed and implemented automated infrastructure templates using Terraform to
 
 ## Architecture Overview
 
+### Visual Architecture Diagrams
+
+**Development VPC**
+
+![Development VPC Architecture](docs/architecture/dev-vpc-architecture.png)
+
+*Development environment with cost-optimized single NAT Gateway configuration*
+
+**Staging VPC**
+
+![Staging VPC Architecture](docs/architecture/staging-vpc-architecture.png)
+
+*Staging environment with dual NAT Gateways for partial high availability*
+
+**Production VPC**
+
+![Production VPC Architecture](docs/architecture/prod-vpc-architecture.png)
+
+*Production environment with triple NAT Gateways for full high availability across 3 AZs*
+
 ### Three-Tier Network Design
 
 Each environment follows a standardized three-tier architecture:

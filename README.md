@@ -14,7 +14,9 @@
 
 ## Solution
 
-I designed and implemented automated infrastructure templates using Terraform to provision complete AWS environments with:
+## Solution
+
+As the TaskFlow platform grew from 5 to 15 developers, I designed and implemented automated VPC infrastructure templates using Terraform to provision complete AWS network environments with:
 
 - Multi-tier VPC architecture (public, application, and database tiers)
 - High availability across multiple availability zones
